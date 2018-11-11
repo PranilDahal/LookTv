@@ -3,4 +3,5 @@
     <string name="title_browse">Browse</string>
     <string name="title_mytv">MyTV</string>
     <string name="title_notifications">Notifications</string>
+    <string name="search_for_tv_shows">Search here</string>
 </resources>
