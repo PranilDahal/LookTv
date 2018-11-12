@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1026385646977",
+    "firebase_url": "https://looktv-f8b14.firebaseio.com",
+    "project_id": "looktv-f8b14",
+    "storage_bucket": "looktv-f8b14.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026385646977:android:2abe52954d2bcf9a",
+        "android_client_info": {
+          "package_name": "looktv.project.cs4540.looktv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026385646977-pli06ki0bd0npc7ah95i72sno630dik8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "looktv.project.cs4540.looktv",
+            "certificate_hash": "e0179a92606d66aa6f2f9e17aa6b88749fea312e"
+          }
+        },
+        {
+          "client_id": "1026385646977-iat8doilbai00t0dr56q0rp5pl5vhm27.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6gsnbeUBb_kk7vG8m7p_zKnuBwheHLjM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026385646977-iat8doilbai00t0dr56q0rp5pl5vhm27.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

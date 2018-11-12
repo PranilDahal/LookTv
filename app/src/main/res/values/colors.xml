@@ -3,7 +3,10 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="skyBlue">#87CEEB</color>
+    <color name="skyBlue">#393939</color>
     <color name="showName">#000000</color>
     <color name="showRatings">#FF0000</color>
+    <color name="colorPrimaryLight">#938403</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray">#CCCCCC</color>
 </resources>
