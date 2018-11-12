@@ -19,6 +19,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -27,6 +30,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import looktv.project.cs4540.looktv.models.SearchResultModel;
+import looktv.project.cs4540.looktv.models.StoredShowModel;
 
 public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.TVShowHolder> {
 
@@ -103,6 +107,13 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
                                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
                         notificationManager.notify(Integer.parseInt(allShows.get(i).getShowId()), mBuilder.build());
+
+                        StoredShowModel storedShow = new StoredShowModel(allShows.get(i).getShowId(), allShows.get(i).getShowName(), allShows.get(i).getShowPoster());
+
+                        //push to database
+                        FirebaseDatabase db = FirebaseDatabase.getInstance();
+                        DatabaseReference mDatabase = db.getReference("shows");
+                        mDatabase.child(storedShow.getId()).setValue(storedShow);
 
                         return true;
                     }
