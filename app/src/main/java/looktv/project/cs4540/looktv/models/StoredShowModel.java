@@ -39,4 +39,8 @@ public class StoredShowModel {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public String toString(){
+        return (this.getName()+" "+this.getUrl());
+    }
 }

@@ -1,7 +1,10 @@
 package looktv.project.cs4540.looktv;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.renderscript.Sampler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
@@ -14,74 +17,73 @@ import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.net.URL;
 import java.util.ArrayList;
 
-import looktv.project.cs4540.looktv.models.SearchResultModel;
 import looktv.project.cs4540.looktv.models.StoredShowModel;
+import looktv.project.cs4540.looktv.utils.NetworkUtils;
 
-public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapter.TVShowHolder> {
+public class StoredShowAdapter extends RecyclerView.Adapter<StoredShowAdapter.TVShowHolder> {
 
+    ArrayList<StoredShowModel> allStoredShows;
     Context context;
-    ArrayList<SearchResultModel> allShows;
 
-    public SearchResultAdapter(Context context, ArrayList<SearchResultModel> shows) {
+    public StoredShowAdapter(ArrayList<StoredShowModel> allStoredShows, Context context) {
+        this.allStoredShows = allStoredShows;
         this.context = context;
-        this.allShows = shows;
     }
 
     @NonNull
     @Override
-    public SearchResultAdapter.TVShowHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
+    public TVShowHolder onCreateViewHolder(@NonNull ViewGroup parent, int i) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         boolean shouldAttachToParentImmediately = false;
 
-        View view = inflater.inflate(R.layout.search_result, parent, shouldAttachToParentImmediately);
-        TVShowHolder viewHolder = new TVShowHolder(view);
+        View view = inflater.inflate(R.layout.stored_show, parent, shouldAttachToParentImmediately);
+        StoredShowAdapter.TVShowHolder viewHolder = new StoredShowAdapter.TVShowHolder(view);
+
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchResultAdapter.TVShowHolder tvShowHolder, int i) {
+    public void onBindViewHolder(@NonNull TVShowHolder tvShowHolder, int i) {
         tvShowHolder.bind(i);
     }
 
     @Override
     public int getItemCount() {
-        return allShows.size();
+        return allStoredShows.size();
     }
 
     public class TVShowHolder extends RecyclerView.ViewHolder {
 
         ImageView poster;
         TextView showName;
-        TextView showRating;
 
         public TVShowHolder(@NonNull View itemView) {
             super(itemView);
-            poster = (ImageView) itemView.findViewById(R.id.show_poster);
-            showName = (TextView) itemView.findViewById(R.id.show_name);
-            showRating = (TextView) itemView.findViewById(R.id.show_rating);
+            poster = (ImageView) itemView.findViewById(R.id.stored_show_poster);
+//            showName = (TextView) itemView.findViewById(R.id.stored_show_name);
         }
 
         public void bind(final int i) {
+            final StoredShowModel model = allStoredShows.get(i);
+//            showName.setText(model.getName());
 
-            showName.setText(allShows.get(i).getShowName());
-
-            if (allShows.get(i).getAvgRating() == "null") {
-                showRating.setText("Ratings Unavailable");
-            } else {
-                showRating.setText("Average Rating: " + allShows.get(i).getAvgRating());
-            }
-
-            if (allShows.get(i).getShowPoster() == "null") {
+            if (model.getUrl() == "null") {
                 poster.setImageResource(R.drawable.ic_looktv_home);
             } else {
 
                 Picasso.get()
-                        .load(allShows.get(i).getShowPoster())
+                        .load(model.getUrl())
                         .placeholder(R.drawable.ic_looktv_home)
                         .error(R.drawable.ic_looktv_notificataion)
                         .into(poster);
@@ -93,28 +95,38 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
                         // Notification
                         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-                        String title = allShows.get(i).getShowName();
-                        String textContent = "LookTv: " + title + " has been added to your list.";
+                        String title = model.getName();
+                        String textContent = "LookTv: " + title + " has been removed from your list.";
                         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, "LookTV")
                                 .setSmallIcon(R.drawable.ic_looktv_account)
                                 .setContentTitle(title)
                                 .setContentText(textContent)
                                 .setPriority(NotificationCompat.PRIORITY_HIGH);
 
-                        notificationManager.notify(Integer.parseInt(allShows.get(i).getShowId()), mBuilder.build());
+                        notificationManager.notify(Integer.parseInt(allStoredShows.get(i).getId()), mBuilder.build());
 
-                        StoredShowModel storedShow = new StoredShowModel(allShows.get(i).getShowId(), allShows.get(i).getShowName(), allShows.get(i).getShowPoster());
+                        StoredShowModel storedShow = new StoredShowModel(model.getId(), model.getName(), model.getUrl());
 
                         //push to database
                         FirebaseDatabase db = FirebaseDatabase.getInstance();
                         DatabaseReference mDatabase = db.getReference("shows");
-                        mDatabase.child(storedShow.getId()).setValue(storedShow);
+                        mDatabase.child(storedShow.getId()).removeValue();
 
+                        StoredShowModel index = null;
+                        for (StoredShowModel x : allStoredShows) {
+                            if (x.getId() == storedShow.getId()) {
+                                index = x;
+                            }
+                        }
+
+                        allStoredShows.remove(index);
+                        notifyItemRemoved(getAdapterPosition());
+                        notifyItemRangeChanged(getAdapterPosition(), 1);
                         return true;
                     }
                 });
             }
         }
-
     }
 }
+

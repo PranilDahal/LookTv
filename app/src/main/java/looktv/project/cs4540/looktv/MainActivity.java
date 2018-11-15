@@ -2,6 +2,7 @@ package looktv.project.cs4540.looktv;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
@@ -51,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_mytv:
                     showMytv();
                     return true;
-                case R.id.navigation_notifications:
-                    showNotifs();
-                    return true;
             }
             return false;
         }
@@ -63,6 +61,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         createNotificationChannel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     private void createNotificationChannel() {
@@ -136,11 +144,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void showMytv() {
-
-    }
-
-    void showNotifs() {
-
+        Intent myTvIntent = new Intent(this, MyTvActivity.class);
+        startActivity(myTvIntent);
+        this.overridePendingTransition(0, 0);
     }
 
     class SearchTask extends AsyncTask<String, Void, Void> {

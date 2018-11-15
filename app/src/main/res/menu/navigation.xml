@@ -11,9 +11,4 @@
         android:icon="@drawable/ic_looktv_account"
         android:title="@string/title_mytv" />
 
-    <item
-        android:id="@+id/navigation_notifications"
-        android:icon="@drawable/ic_looktv_notificataion"
-        android:title="@string/title_notifications" />
-
 </menu>

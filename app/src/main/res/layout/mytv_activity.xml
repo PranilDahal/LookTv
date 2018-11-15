@@ -6,10 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#c2bcbc">
+    android:background="#ffffff">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your List"
+        android:textSize="20sp"
+        android:textColor="@color/showName"
+        android:textAlignment="center"/>
 
     <ProgressBar
-        android:id="@+id/progress"
+        android:id="@+id/progress2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"/>
@@ -17,9 +25,10 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/search_page_recycler"
+        android:id="@+id/stored_show_recycler"
         android:scrollbars="vertical"
-        android:paddingBottom="40dp"/>
+        android:paddingBottom="40dp"
+        android:paddingTop="25dp"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
