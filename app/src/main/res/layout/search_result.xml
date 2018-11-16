@@ -29,6 +29,35 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/show_language"
+                android:layout_toRightOf="@+id/show_poster"
+                android:textSize="16sp"
+                android:layout_marginTop="6sp"
+                android:textColor="@color/showName"/>
+
+            <TextView
+                android:id="@+id/show_premier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/show_language"
+                android:layout_toRightOf="@+id/show_poster"
+                android:textSize="16sp"
+                android:layout_marginTop="6sp"
+                android:textColor="@color/showName"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/show_status"
+                android:layout_toRightOf="@+id/show_poster"
+                android:layout_below="@+id/show_premier"
+                android:textSize="16sp"
+                android:layout_marginTop="6sp"
+                android:textColor="@color/showName"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/show_name"
                 android:layout_below="@+id/show_poster"
                 android:textSize="20sp"
@@ -40,6 +69,16 @@
                 android:id="@+id/show_rating"
                 android:layout_below="@+id/show_name"
                 android:textColor="@color/showRatings"/>
+
+            <Button
+                android:id="@+id/show_website"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/show_poster"
+                android:layout_toRightOf="@+id/show_poster"
+                android:text="OfficialSite"
+                android:textAllCaps="false" />
+
 
         </RelativeLayout>
 

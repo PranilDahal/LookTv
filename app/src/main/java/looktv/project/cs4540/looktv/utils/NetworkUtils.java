@@ -91,8 +91,13 @@ public class NetworkUtils {
                     String showName = showObj.getString("name");
                     String avgRatings = ratingsObj.getString("average");
                     String imageUrl = imagesObj.getString("original");
+                    String website = showObj.getString("officialSite");
+                    String status = showObj.getString("status");
+                    String premeried = showObj.getString("premiered");
+                    String language = showObj.getString("language");
 
-                    listOfShows.add(new SearchResultModel(showId, showName, avgRatings, imageUrl));
+                    listOfShows.add(new SearchResultModel(showId, showName, avgRatings, imageUrl,website,
+                            language, premeried, status));
                 } catch (JSONException e){
                     Log.d("ERROR WHILE PARSING", shows.getJSONObject(i).toString());
                     continue;

@@ -10,11 +10,24 @@ public class SearchResultModel {
 
     public String showPoster;
 
-    public SearchResultModel(String showId, String showName, String avgRating, String showPoster) {
+    public String website;
+
+    public String language;
+
+    public String premiered;
+
+    public String status;
+
+    public SearchResultModel(String showId, String showName, String avgRating, String showPoster, String website,
+                             String language, String premiered, String status) {
         this.showId = showId;
         this.showName = showName;
         this.avgRating = avgRating;
         this.showPoster = showPoster;
+        this.website = website;
+        this.language = language;
+        this.premiered = premiered;
+        this.status = status;
     }
 
     public String getShowId() {
@@ -47,5 +60,37 @@ public class SearchResultModel {
 
     public void setShowPoster(String showPoster) {
         this.showPoster = showPoster;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getPremiered() {
+        return premiered;
+    }
+
+    public void setPremiered(String premiered) {
+        this.premiered = premiered;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
