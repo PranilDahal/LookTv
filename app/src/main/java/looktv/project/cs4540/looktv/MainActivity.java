@@ -3,7 +3,9 @@ package looktv.project.cs4540.looktv;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,9 +14,12 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,16 +79,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = "LookTV";
             String description = "LookTV: Plan your bringe-watch.";
             int importance = NotificationManager.IMPORTANCE_HIGH;
             NotificationChannel channel = new NotificationChannel("LookTV", name, importance);
             channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
+
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
@@ -125,10 +128,13 @@ public class MainActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progress);
 
         showAdapter = new SearchResultAdapter(this, showList);
+
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        showRecyclerView.setLayoutManager(mLayoutManager);
+        showRecyclerView.addItemDecoration(new GridViewOrganizer(2, dpToPx(10), true));
+        showRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         showRecyclerView.setAdapter(showAdapter);
-        showRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        showRecyclerView.setLayoutManager(llm);
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -188,6 +194,48 @@ public class MainActivity extends AppCompatActivity {
                 showAdapter.notifyDataSetChanged();
             }
         });
+    }
+
+    private class GridViewOrganizer extends RecyclerView.ItemDecoration {
+
+        private int count;
+        private int space;
+        private boolean includeEdge;
+
+        public GridViewOrganizer(int count, int space, boolean includeEdge) {
+            this.count = count;
+            this.space = space;
+            this.includeEdge = includeEdge;
+        }
+
+        @Override
+        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+
+            int position = parent.getChildAdapterPosition(view);
+            int column = position % count;
+
+            if (includeEdge) {
+                outRect.left = space - column * space / count;
+                outRect.right = (column + 1) * space / count;
+
+                if (position < count) {
+                    outRect.top = space;
+                }
+                outRect.bottom = space;
+            } else {
+                outRect.left = column * space / count;
+                outRect.right = space - (column + 1) * space / count;
+                if (position >= count) {
+                    outRect.top = space;
+                }
+            }
+        }
+
+    }
+
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
 }

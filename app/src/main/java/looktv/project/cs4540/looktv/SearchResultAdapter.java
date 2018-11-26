@@ -60,34 +60,23 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
         ImageView poster;
         TextView showName;
         TextView showRating;
-        TextView showLanguage;
-        TextView showStatus;
-        TextView showPremier;
 
         public TVShowHolder(@NonNull View itemView) {
             super(itemView);
             poster = (ImageView) itemView.findViewById(R.id.show_poster);
             showName = (TextView) itemView.findViewById(R.id.show_name);
             showRating = (TextView) itemView.findViewById(R.id.show_rating);
-            showLanguage = (TextView) itemView.findViewById(R.id.show_language);
-            showStatus = (TextView) itemView.findViewById(R.id.show_status);
-            showPremier = (TextView) itemView.findViewById(R.id.show_premier);
+
         }
 
         public void bind(final int i) {
 
             showName.setText(allShows.get(i).getShowName());
 
-            showLanguage.setText("Available in following language: "+allShows.get(i).getLanguage());
-
-            showStatus.setText("Status: "+allShows.get(i).getStatus());
-
-            showPremier.setText("Premiered on "+allShows.get(i).getPremiered());
-
             if (allShows.get(i).getAvgRating() == "null") {
-                showRating.setText("Ratings Unavailable");
+                showRating.setText("Ratings N/A");
             } else {
-                showRating.setText("Average Rating: " + allShows.get(i).getAvgRating());
+                showRating.setText("Avg Rating: " + allShows.get(i).getAvgRating());
             }
 
             if (allShows.get(i).getShowPoster() == "null") {
