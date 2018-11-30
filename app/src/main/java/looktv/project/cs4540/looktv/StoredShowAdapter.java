@@ -60,7 +60,11 @@ public class StoredShowAdapter extends RecyclerView.Adapter<StoredShowAdapter.TV
 
     @Override
     public int getItemCount() {
-        return allStoredShows.size();
+        if (allStoredShows != null) {
+            return allStoredShows.size();
+        } else {
+            return 0;
+        }
     }
 
     public class TVShowHolder extends RecyclerView.ViewHolder {
@@ -121,7 +125,8 @@ public class StoredShowAdapter extends RecyclerView.Adapter<StoredShowAdapter.TV
 
                         allStoredShows.remove(index);
                         notifyItemRemoved(getAdapterPosition());
-                        notifyItemRangeChanged(getAdapterPosition(), 1);
+                        notifyItemRangeChanged(getAdapterPosition(), allStoredShows.size());
+                        notifyDataSetChanged();
                         return true;
                     }
                 });

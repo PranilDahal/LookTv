@@ -52,7 +52,11 @@ public class SearchResultAdapter extends RecyclerView.Adapter<SearchResultAdapte
 
     @Override
     public int getItemCount() {
-        return allShows.size();
+        if (allShows != null) {
+            return allShows.size();
+        } else {
+            return 0;
+        }
     }
 
     public class TVShowHolder extends RecyclerView.ViewHolder {
